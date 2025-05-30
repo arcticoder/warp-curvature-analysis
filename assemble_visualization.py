@@ -23,26 +23,56 @@ def detect_events(diagnostics, R2_thresh=1e-6):
     events = []
     for run in diagnostics:
         # constraint-violation event
-        for t, val in run.get('violations', []):
-            if val > R2_thresh:
-                events.append({
-                    'event': 'constraint_violation',
-                    'time': t,
-                    'params': run.get('parameters', {})
-                })
-                break
+        violations = run.get('violations', [])
+        if violations:
+            # Check if violations contains error strings or numerical data
+            if isinstance(violations[0], str):
+                # If violations are error messages, create an event for any non-empty violations
+                if violations:
+                    events.append({
+                        'event': 'constraint_violation',
+                        'time': None,
+                        'params': run.get('parameters', {}),
+                        'violation_msg': violations[0]
+                    })
+            else:
+                # If violations are (time, value) tuples
+                for t, val in violations:
+                    if val > R2_thresh:
+                        events.append({
+                            'event': 'constraint_violation',
+                            'time': t,
+                            'params': run.get('parameters', {}),
+                            'violation_value': val
+                        })
+                        break
+        
         # peak-R event (use time_of_max_R if available, else None)
-        events.append({
-            'event': 'peak_R',
-            'time': run.get('time_of_max_R'),
-            'params': run.get('parameters', {})
-        })
+        # Only add this event for actual test runs, not header entries
+        if run.get('type') in ['test', None] or 'max_R' in run:
+            events.append({
+                'event': 'peak_R',
+                'time': run.get('time_of_max_R'),
+                'params': run.get('parameters', {}),
+                'max_R': run.get('max_R'),
+                'peak_R2': run.get('peak_R2')
+            })
     return events
 
 def to_am_timeline(events):
     lines = ["timeline:"]
     for e in events:
-        lines.append(f"- at t={e['time']}: {e['event']} for params {e['params']}")
+        if e['event'] == 'constraint_violation':
+            if 'violation_msg' in e:
+                lines.append(f"- at t={e['time']}: {e['event']} ({e['violation_msg']}) for params {e['params']}")
+            else:
+                lines.append(f"- at t={e['time']}: {e['event']} (value={e.get('violation_value')}) for params {e['params']}")
+        elif e['event'] == 'peak_R':
+            max_R = e.get('max_R', 'N/A')
+            peak_R2 = e.get('peak_R2', 'N/A')
+            lines.append(f"- at t={e['time']}: {e['event']} (max_R={max_R}, peak_R2={peak_R2}) for params {e['params']}")
+        else:
+            lines.append(f"- at t={e['time']}: {e['event']} for params {e['params']}")
     return "\n".join(lines)
 
 def main():

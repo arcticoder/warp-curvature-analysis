@@ -1,0 +1,11 @@
+timeline:
+- at t=None: constraint_violation (Unknown test type) for params {}
+- at t=None: peak_R (max_R=1.0, peak_R2=1.0) for params {}
+- at t=None: peak_R (max_R=0.0, peak_R2=0.0) for params {}
+- at t=None: peak_R (max_R=0.0, peak_R2=0.0) for params {}
+- at t=None: peak_R (max_R=0.0, peak_R2=0.0) for params {}
+- at t=None: peak_R (max_R=0.0, peak_R2=0.0) for params {}
+- at t=None: peak_R (max_R=0.125, peak_R2=0.015625) for params {}
+- at t=None: peak_R (max_R=0.125, peak_R2=0.015625) for params {}
+- at t=None: peak_R (max_R=0.125, peak_R2=0.015625) for params {}
+- at t=None: peak_R (max_R=0.125, peak_R2=0.015625) for params {}

@@ -18,12 +18,23 @@ def load_convergence_json(path):
 
 def run_solver(params):
     # assume solver.py takes JSON on stdin and emits JSON diagnostics on stdout
-    p = subprocess.run(
-        ['python', 'solver.py'],
-        input=json.dumps(params),
-        text=True, capture_output=True, check=True
-    )
-    return json.loads(p.stdout)
+    try:
+        p = subprocess.run(
+            ['python', 'solver.py'],
+            input=json.dumps(params),
+            text=True, capture_output=True, check=True
+        )
+        if not p.stdout.strip():
+            raise ValueError("Empty output from solver")
+        return json.loads(p.stdout)
+    except subprocess.CalledProcessError as e:
+        print(f"Solver failed with error: {e}")
+        print(f"Stderr: {e.stderr}")
+        raise
+    except json.JSONDecodeError as e:
+        print(f"Failed to parse solver output as JSON: {e}")
+        print(f"Raw output: {repr(p.stdout)}")
+        raise
 
 def to_asciimath(entries):
     lines = []
