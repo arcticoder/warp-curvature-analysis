@@ -1,0 +1,9 @@
+{"type": "header", "title": "Convergence Study", "date": "2025-05-30"}
+{"type": "test", "name": "Minkowski", "results": [{"h": 0.1, "L2": 0.0, "Linf": 0.0}, {"h": 0.05, "L2": 0.0, "Linf": 0.0}, {"h": 0.025, "L2": 0.0, "Linf": 0.0}, {"h": 0.0125, "L2": 0.0, "Linf": 0.0}]}
+{"type": "order", "test": "Minkowski", "h1": 0.1, "h2": 0.05, "L2_order": null, "Linf_order": null}
+{"type": "order", "test": "Minkowski", "h1": 0.05, "h2": 0.025, "L2_order": null, "Linf_order": null}
+{"type": "order", "test": "Minkowski", "h1": 0.025, "h2": 0.0125, "L2_order": null, "Linf_order": null}
+{"type": "test", "name": "Schwarzschild", "results": [{"h": 0.1, "L2": 0.0, "Linf": 0.0}, {"h": 0.05, "L2": 0.0, "Linf": 0.0}, {"h": 0.025, "L2": 0.0, "Linf": 0.0}, {"h": 0.0125, "L2": 0.0, "Linf": 0.0}]}
+{"type": "order", "test": "Schwarzschild", "h1": 0.1, "h2": 0.05, "L2_order": null, "Linf_order": null}
+{"type": "order", "test": "Schwarzschild", "h1": 0.05, "h2": 0.025, "L2_order": null, "Linf_order": null}
+{"type": "order", "test": "Schwarzschild", "h1": 0.025, "h2": 0.0125, "L2_order": null, "Linf_order": null}
