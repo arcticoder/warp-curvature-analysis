@@ -24,7 +24,7 @@ Run the warp-bubble time-integration solver on convergence results to extract st
 ## Inputs
 - `convergence.ndjson`  
   JSON lines of:
-  ```json
+```json
   {
     "parameters": { "grid": 128, "dr": 0.01, "dt": 0.005 },
     "L2_error": 1e-6,
@@ -57,32 +57,31 @@ python assemble_visualization.py \
 -   **strong\_curvature.ndjson**  
     JSON lines, each:
     
-    ```json
+```json
     {
       "parameters": { ... },
       "max_R": 0.123,
       "peak_R2": 0.000456,
       "violations": [ [0.0, 1e-7], [0.1, 2e-7], … ]
-    }
-    ```
+```
     
 -   **strong\_curvature.am**  
     AsciiMath summary, e.g.:
     
-    ```yaml
-    run: grid=128, dr=0.01, dt=0.005, max_R: 0.123, peak_R2: 0.000456
-    ```
+```yaml
+run: grid=128, dr=0.01, dt=0.005, max_R: 0.123, peak_R2: 0.000456
+```
     
 -   **simulation\_summary.ndjson**  
     JSON lines of timeline events:
     
-    ```json
-    {
-      "event": "constraint_violation",
-      "time": 0.1,
-      "params": { ... }
-    }
-    ```
+```json
+ {
+   "event": "constraint_violation",
+   "time": 0.1,
+   "params": { ... }
+ }
+```
     
 -   **simulation\_summary.am**  
     AsciiMath timeline notes:
