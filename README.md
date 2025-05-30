@@ -3,6 +3,12 @@
 ## Purpose
 Run the warp-bubble time-integration solver on convergence results to extract strong-field curvature diagnostics, then assemble a timeline summary for visualization.
 
+## Requirements
+- Python 3.7+
+- NumPy
+
+**Note**: This project depends on `solver.py`, which provides the core RK4 integration and curvature computation functionality.
+
 ## Workflow Overview
 1. **run_strong_curvature.py**  
    - Reads `convergence.ndjson`.
@@ -36,15 +42,15 @@ Run the warp-bubble time-integration solver on convergence results to extract st
 ## Usage Examples
 
 ```bash
-python run_strong_curvature.py `
-  --input convergence.ndjson `
-  --output-json strong_curvature.ndjson `
+python run_strong_curvature.py \
+  --input convergence.ndjson \
+  --output-json strong_curvature.ndjson \
   --output-am   strong_curvature.am
 
-python assemble_visualization.py `
-  --input-json strong_curvature.ndjson `
-  --input-am   strong_curvature.am `
-  --output-json simulation_summary.ndjson `
+python assemble_visualization.py \
+  --input-json strong_curvature.ndjson \
+  --input-am   strong_curvature.am \
+  --output-json simulation_summary.ndjson \
   --output-am   simulation_summary.am
 ```
 

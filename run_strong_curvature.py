@@ -22,14 +22,17 @@ def run_solver(params):
         p = subprocess.run(
             ['python', 'solver.py'],
             input=json.dumps(params),
-            text=True, capture_output=True, check=True
+            text=True, capture_output=True, check=True,
+            cwd=Path(__file__).parent  # Ensure we're in the right directory
         )
-        if not p.stdout.strip():
+        stdout_clean = p.stdout.strip()
+        if not stdout_clean:
             raise ValueError("Empty output from solver")
-        return json.loads(p.stdout)
+        return json.loads(stdout_clean)
     except subprocess.CalledProcessError as e:
         print(f"Solver failed with error: {e}")
         print(f"Stderr: {e.stderr}")
+        print(f"Stdout: {repr(p.stdout)}")
         raise
     except json.JSONDecodeError as e:
         print(f"Failed to parse solver output as JSON: {e}")
@@ -39,8 +42,11 @@ def run_solver(params):
 def to_asciimath(entries):
     lines = []
     for e in entries:
-        specs = ", ".join(f"{k}={v}" for k, v in e.items() if k not in ('violations',))
-        lines.append(f"run: {specs}, max_R: {e['max_R']}, peak_R2: {e['peak_R2']}")
+        # Extract key parameters for cleaner display
+        name = e.get('name', 'unknown')
+        max_R = e.get('max_R', 'N/A')
+        peak_R2 = e.get('peak_R2', 'N/A')
+        lines.append(f"run: {name}, max_R: {max_R}, peak_R2: {peak_R2}")
     return "\n".join(lines)
 
 def main():
@@ -48,11 +54,16 @@ def main():
     conv = load_convergence_json(args.input)
     results = []
     for entry in conv:
-        diag = run_solver(entry.get('parameters', entry))
+        # Skip header entries and order entries, only process test entries
+        if entry.get('type') in ['header', 'order']:
+            continue
+        # For test entries, use the entry itself as parameters
+        diag = run_solver(entry)
         results.append({
             **entry,
             'max_R': diag['max_R'],
             'peak_R2': diag['peak_R2'],
+            'time_of_max_R': diag.get('time_of_max_R', 0.0),  # Use get() with default
             'violations': diag['violations']
         })
     # write JSON output

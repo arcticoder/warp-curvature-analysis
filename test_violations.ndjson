@@ -1,0 +1,2 @@
+{"type": "test", "name": "TestWithViolations", "max_R": 1.5, "peak_R2": 2.25, "time_of_max_R": 0.8, "violations": ["Constraint violation detected"]}
+{"type": "test", "name": "TestWithNumericViolations", "max_R": 0.5, "peak_R2": 0.25, "time_of_max_R": 0.4, "violations": [[0.1, 1e-5], [0.2, 2e-5]]}

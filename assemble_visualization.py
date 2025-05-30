@@ -26,26 +26,45 @@ def detect_events(diagnostics, R2_thresh=1e-6):
         violations = run.get('violations', [])
         if violations:
             # Check if violations contains error strings or numerical data
-            if isinstance(violations[0], str):
+            if violations and isinstance(violations[0], str):
                 # If violations are error messages, create an event for any non-empty violations
-                if violations:
+                events.append({
+                    'event': 'constraint_violation',
+                    'time': None,
+                    'params': {'name': run.get('name', 'unknown')},
+                    'violation_msg': violations[0]
+                })
+            else:
+                # If violations are (time, value) tuples, check if they can be unpacked
+                try:
+                    for violation in violations:
+                        if isinstance(violation, (list, tuple)) and len(violation) == 2:
+                            t, val = violation
+                            if val > R2_thresh:
+                                events.append({
+                                    'event': 'constraint_violation',
+                                    'time': t,
+                                    'params': {'name': run.get('name', 'unknown')},
+                                    'violation_value': val
+                                })
+                                break
+                        else:
+                            # Handle case where violations are not tuples
+                            events.append({
+                                'event': 'constraint_violation',
+                                'time': None,
+                                'params': {'name': run.get('name', 'unknown')},
+                                'violation_msg': str(violation)
+                            })
+                            break
+                except (ValueError, TypeError):
+                    # Handle case where violations cannot be processed as tuples
                     events.append({
                         'event': 'constraint_violation',
                         'time': None,
-                        'params': run.get('parameters', {}),
-                        'violation_msg': violations[0]
+                        'params': {'name': run.get('name', 'unknown')},
+                        'violation_msg': str(violations)
                     })
-            else:
-                # If violations are (time, value) tuples
-                for t, val in violations:
-                    if val > R2_thresh:
-                        events.append({
-                            'event': 'constraint_violation',
-                            'time': t,
-                            'params': run.get('parameters', {}),
-                            'violation_value': val
-                        })
-                        break
         
         # peak-R event (use time_of_max_R if available, else None)
         # Only add this event for actual test runs, not header entries
@@ -53,7 +72,7 @@ def detect_events(diagnostics, R2_thresh=1e-6):
             events.append({
                 'event': 'peak_R',
                 'time': run.get('time_of_max_R'),
-                'params': run.get('parameters', {}),
+                'params': {'name': run.get('name', 'unknown')},
                 'max_R': run.get('max_R'),
                 'peak_R2': run.get('peak_R2')
             })

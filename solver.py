@@ -77,6 +77,7 @@ def compute_curvature_diagnostics(params):
         return {
             'max_R': 0.0,
             'peak_R2': 0.0,
+            'time_of_max_R': 0.0,
             'violations': []
         }
     elif test_name == 'Schwarzschild':
@@ -95,13 +96,14 @@ def compute_curvature_diagnostics(params):
         return {
             'max_R': max_R,
             'peak_R2': peak_R2,
+            'time_of_max_R': 1.0,  # Peak occurs at t=1.0 for this demo
             'violations': []
         }
-    else:
-        # Default case for unknown test types
+    else:        # Default case for unknown test types
         return {
             'max_R': 1.0,
             'peak_R2': 1.0,
+            'time_of_max_R': 0.5,
             'violations': ['Unknown test type']
         }
 
@@ -121,11 +123,11 @@ def main():
         # Output JSON diagnostics to stdout
         print(json.dumps(diagnostics))
         
-    except Exception as e:
-        # Output error in JSON format
+    except Exception as e:        # Output error in JSON format
         error_output = {
             'max_R': 0.0,
             'peak_R2': 0.0,
+            'time_of_max_R': 0.0,
             'violations': [f'Error: {str(e)}']
         }
         print(json.dumps(error_output))

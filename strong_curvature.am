@@ -1,9 +1,2 @@
-run: type=header, title=Convergence Study, date=2025-05-30, max_R=1.0, peak_R2=1.0, max_R: 1.0, peak_R2: 1.0
-run: type=test, name=Minkowski, results=[{'h': 0.1, 'L2': 0.0, 'Linf': 0.0}, {'h': 0.05, 'L2': 0.0, 'Linf': 0.0}, {'h': 0.025, 'L2': 0.0, 'Linf': 0.0}, {'h': 0.0125, 'L2': 0.0, 'Linf': 0.0}], max_R=0.0, peak_R2=0.0, max_R: 0.0, peak_R2: 0.0
-run: type=order, test=Minkowski, h1=0.1, h2=0.05, L2_order=None, Linf_order=None, max_R=0.0, peak_R2=0.0, max_R: 0.0, peak_R2: 0.0
-run: type=order, test=Minkowski, h1=0.05, h2=0.025, L2_order=None, Linf_order=None, max_R=0.0, peak_R2=0.0, max_R: 0.0, peak_R2: 0.0
-run: type=order, test=Minkowski, h1=0.025, h2=0.0125, L2_order=None, Linf_order=None, max_R=0.0, peak_R2=0.0, max_R: 0.0, peak_R2: 0.0
-run: type=test, name=Schwarzschild, results=[{'h': 0.1, 'L2': 0.0, 'Linf': 0.0}, {'h': 0.05, 'L2': 0.0, 'Linf': 0.0}, {'h': 0.025, 'L2': 0.0, 'Linf': 0.0}, {'h': 0.0125, 'L2': 0.0, 'Linf': 0.0}], max_R=0.125, peak_R2=0.015625, max_R: 0.125, peak_R2: 0.015625
-run: type=order, test=Schwarzschild, h1=0.1, h2=0.05, L2_order=None, Linf_order=None, max_R=0.125, peak_R2=0.015625, max_R: 0.125, peak_R2: 0.015625
-run: type=order, test=Schwarzschild, h1=0.05, h2=0.025, L2_order=None, Linf_order=None, max_R=0.125, peak_R2=0.015625, max_R: 0.125, peak_R2: 0.015625
-run: type=order, test=Schwarzschild, h1=0.025, h2=0.0125, L2_order=None, Linf_order=None, max_R=0.125, peak_R2=0.015625, max_R: 0.125, peak_R2: 0.015625
+run: Minkowski, max_R: 0.0, peak_R2: 0.0
+run: Schwarzschild, max_R: 0.125, peak_R2: 0.015625
