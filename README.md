@@ -33,9 +33,6 @@ Run the warp-bubble time-integration solver on convergence results to extract st
   }
 ```
 
--   Optional: `convergence.am` (AsciiMath summary).
-    
-
 ## Usage Examples
 
 ```bash
