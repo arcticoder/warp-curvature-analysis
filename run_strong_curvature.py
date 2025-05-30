@@ -8,7 +8,6 @@ def parse_args():
         description="Run full warp-bubble solver runs and extract curvature diagnostics."
     )
     p.add_argument('--input',       required=True, help='convergence.ndjson')
-    p.add_argument('--input-am',    help='convergence.am (AsciiMath)')
     p.add_argument('--output-json', required=True, help='strong_curvature.ndjson')
     p.add_argument('--output-am',   required=True, help='strong_curvature.am')
     return p.parse_args()
@@ -16,9 +15,6 @@ def parse_args():
 def load_convergence_json(path):
     with open(path) as f:
         return [json.loads(line) for line in f]
-
-def load_convergence_am(path):
-    return Path(path).read_text() if path and Path(path).exists() else None
 
 def run_solver(params):
     # assume solver.py takes JSON on stdin and emits JSON diagnostics on stdout
@@ -39,7 +35,6 @@ def to_asciimath(entries):
 def main():
     args = parse_args()
     conv = load_convergence_json(args.input)
-    # ignore AM input for now; metadata could be parsed similarly
     results = []
     for entry in conv:
         diag = run_solver(entry.get('parameters', entry))
