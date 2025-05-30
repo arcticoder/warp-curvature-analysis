@@ -5,7 +5,7 @@ Run the warp-bubble time-integration solver on convergence results to extract st
 
 ## Workflow Overview
 1. **run_strong_curvature.py**  
-   - Reads `convergence.ndjson` (and optional AsciiMath `.am`).
+   - Reads `convergence.ndjson`.
    - For each entry, runs the full solver and computes:
      - `max_R` (Ricci scalar)
      - `peak_R2` ($R_{μν}R^{μν}$)
